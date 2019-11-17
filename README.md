@@ -3,6 +3,8 @@
 Collection of the most popular and widely used open-source forensic tools in a lightweight and fast docker image. 
 
 ## Overview
+Since Python2 support is coming to an end in Jan 2020, all tools should be ported to Python3
+
 Curently a beta testing for volatility version 3 and RegRipper 2.8
 
 The Docker image is based on [Alpine Linux](https://hub.docker.com/_/alpine/), the most lightweight linux container distribution.
