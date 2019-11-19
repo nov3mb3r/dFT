@@ -53,3 +53,10 @@ RUN apk add --no-cache -t .build \
   && echo "---- Cleaning up ----" \
   && rm -rf /RegRipper2.8
   && apk del --purge .build 
+  
+  && echo "---- Cleaning up ----" \
+  && rm -rf /volatility3 \
+  && rm -rf /RegRipper2.8 \
+  && apk del --purge .build 
+
+WORKDIR /cases
