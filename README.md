@@ -1,7 +1,7 @@
 # dFT
 # docker Forensic Toolkit
 
-Fast and lightweight image with the most popular and widely used open-source forensic tools in a lightweight and fast docker image. 
+Fast and lightweight docker container with the most popular and widely used open-source forensic tools 
 
 ## Overview
 The Docker image is based on [Alpine Linux](https://hub.docker.com/_/alpine/), the most lightweight linux container distribution.
