@@ -6,6 +6,7 @@ Fast and lightweight image with the most popular and widely used open-source for
 ## Overview
 The Docker image is based on [Alpine Linux](https://hub.docker.com/_/alpine/), the most lightweight linux container distribution.
 
+
 ### Install Docker
 Wait! It's dangerous to go alone! 
 
@@ -29,3 +30,6 @@ Access your case files with a shared folder between your working directory and t
 ```
 $ sudo docker run -it -v ~/cases:/cases:ro nov3mb3r/dFT /bin/ash 
 ```
+
+#### DISCLAIMER
+Every tool included in the build is shipped AS IS, created by their respective owners. 
