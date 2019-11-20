@@ -58,12 +58,14 @@ RUN apk add --no-cache -t .build \
 
   #various tools
   #flarestrings/rank_strings
-  && git clone https://github.com/fireeye/stringsifter.git \
-  && cd stringsifter \
-  && pip3 install -e . \
-  && cd \
-  && rm -rf /stringsifter \
+  #&& git clone https://github.com/fireeye/stringsifter.git \
+  #&& cd stringsifter \
+  #&& pip3 install -e . \
+  #&& cd \
+  #&& rm -rf /stringsifter \
   #oletools
+
+  && apk add pcre-dev swig \
   && pip install -U https://github.com/decalage2/oletools/archive/master.zip \
   #ntfs parser, vsc_mount
   && pip3 install https://github.com/msuhanov/dfir_ntfs/archive/1.0.0.tar.gz \
