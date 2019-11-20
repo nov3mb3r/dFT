@@ -62,7 +62,7 @@ RUN apk add --no-cache -t .build \
   #flarestrings/rank_strings
   && git clone https://github.com/fireeye/stringsifter.git \
   && cd stringsifter \
-  && pip install -e . \
+  && pip3 install -e . \
   && rm -rf /stringsifter \
   #oletools
   && pip install -U https://github.com/decalage2/oletools/archive/master.zip \
