@@ -1,6 +1,7 @@
 FROM alpine:latest
 LABEL maintainer = "November (novemb3r@protonmail.ch)"
 
+RUN apk libmagic
 RUN apk add --no-cache -t .build \
   make \
   gcc \
@@ -12,7 +13,14 @@ RUN apk add --no-cache -t .build \
   sed\
   gcc \
   bash \
-  
+  python3-dev \
+  libc-dev \
+  libffi-dev \
+  openssl-dev\
+  automake \
+  libtool \
+  fuse-dev \
+
   #prepare perl
   && cd /tmp \
   && wget http://www.cpan.org/src/5.0/perl-5.24.0.tar.gz \
@@ -45,15 +53,36 @@ RUN apk add --no-cache -t .build \
   && git clone https://github.com/volatilityfoundation/volatility3.git
   && cd volatility3 \
   && python3 setup.py install \
-  && cd / \
-  && chmod 644 /sift-files/volatility/*.py \
-  && mkdir /plugins \
-  && cp /sift-files/volatility/*.py /plugins \
 
   && echo "---- Cleaning up ----" \
   && rm -rf /RegRipper2.8
   && apk del --purge .build 
   
+  #various tools
+  #flarestrings/rank_strings
+  && git clone https://github.com/fireeye/stringsifter.git \
+  && cd stringsifter \
+  && pip install -e . \
+  && rm -rf /stringsifter \
+  #oletools
+  && pip install -U https://github.com/decalage2/oletools/archive/master.zip \
+  #ntfs parser, vsc_mount
+  && pip3 install https://github.com/msuhanov/dfir_ntfs/archive/1.0.0.tar.gz
+  #peframe
+  && git clone https://github.com/guelfoweb/peframe.git \
+  && cd peframe \
+  && python3 setup.py install \
+  && rm -rf /peframe \
+  
+   #libvshadow
+  && wget https://github.com/libyal/libvshadow/releases/download/20191103/libvshadow-alpha-20191103.tar.gz \
+  && tar xfv libvshadow-alpha* \
+  && cd libvshadow* \
+  && ./configure \
+  && make \
+  && make install \
+  && rm -rf /libvshadow-20191103 \
+ 
   && echo "---- Cleaning up ----" \
   && rm -rf /volatility3 \
   && rm -rf /RegRipper2.8 \
