@@ -1,26 +1,28 @@
 FROM alpine:latest
 LABEL maintainer = "November (novemb3r@protonmail.ch)"
 
-RUN apk add libmagic
-RUN apk add --no-cache -t .build \
-  make \
-  gcc \
-  libc-dev \
-  wget \
+RUN apk add --no-cache libc-dev \
+  pcre-dev \
+  swig \
+  libmagic\
+  libffi-dev \
+  openssl-dev\
+  libtool \
+  fuse-dev \
   ca-certificates \
   tzdata \
+  python3-dev 
+  
+RUN apk add --no-cache -t .build \
+  gcc \
+  make \
+  wget \
   git \
   sed\
   gcc \
   bash \
-  python3-dev \
-  libc-dev \
-  libffi-dev \
-  openssl-dev\
-  automake \
-  libtool \
-  fuse-dev 
-
+  automake 
+    
   #prepare perl
   RUN cd /tmp \
   && wget http://www.cpan.org/src/5.0/perl-5.24.0.tar.gz \
@@ -31,11 +33,10 @@ RUN apk add --no-cache -t .build \
   && cd /usr/local/bin \
   && wget https://cpanmin.us/ -O cpanm \
   && chmod +x cpanm \
-  
-  #prepare reg
+  && cd / \
   && mkdir /usr/local/lib/rip-lib \
   && cpanm -l /usr/local/lib/rip-lib Parse::Win32Registry \
-  
+ 
   #rr download, mod & installation
   && git clone https://github.com/keydet89/RegRipper2.8.git \ 
   && cd RegRipper2.8 \
@@ -43,49 +44,54 @@ RUN apk add --no-cache -t .build \
   && perl -pi -e 'tr[\r][]d' rip \
   && sed -i "1i #!`which perl`" rip \
   && sed -i '2i use lib qw(/usr/local/lib/rip-lib/lib/perl5/);' rip \
-  && cp rip /usr/local/bin/rip.pl \
-  && chmod +x /usr/local/bin/rip.pl \
-  && mkdir /usr/local/bin/plugins \
-  && cp plugins/* /usr/local/bin/plugins \
-  && cd 
-
-  RUN pip3 install --upgrade pip \
+  && cp rip /usr/local/bin/rip \
+  && chmod +x /usr/local/bin/rip \
+  && mkdir /usr/share/regripper \
+  && cp -R ./plugins/ /usr/share/regripper \
+  && chmod -R 644 /usr/share/regripper/* \
   && cd / 
+  
+  
   #volatility3
   RUN git clone https://github.com/volatilityfoundation/volatility3.git \
   && cd volatility3 \
   && python3 setup.py install \
+  && cd / \
 
-  #various tools
-  #flarestrings/rank_strings
-  #&& git clone https://github.com/fireeye/stringsifter.git \
-  #&& cd stringsifter \
-  #&& pip3 install -e . \
-  #&& cd \
-  #&& rm -rf /stringsifter \
+  && echo "Various tools install" \
+    
   #oletools
-
-  && apk add pcre-dev swig \
   && pip install -U https://github.com/decalage2/oletools/archive/master.zip \
+  
   #ntfs parser, vsc_mount
   && pip3 install https://github.com/msuhanov/dfir_ntfs/archive/1.0.0.tar.gz \
+  
   #peframe
   && git clone https://github.com/guelfoweb/peframe.git \
   && cd peframe \
   && python3 setup.py install \
-  && cd \
+  && cd / \
   && rm -rf /peframe \
   
-   #libvshadow
+  #libvshadow
   && wget https://github.com/libyal/libvshadow/releases/download/20191103/libvshadow-alpha-20191103.tar.gz \
   && tar xfv libvshadow-alpha* \
   && cd libvshadow* \
   && ./configure \
   && make \
   && make install \
-  && cd \
+  && cd / \
   && rm -rf /libvshadow-20191103 \
- 
+  && rm libvshadow* \
+   
+  #flarestrings/rank_strings
+  #&& git clone https://github.com/fireeye/stringsifter.git \
+  #&& cd stringsifter \
+  #&& pip3 install -e . \
+  #&& cd / \
+  #&& rm -rf /stringsifter \
+  #&& chmod 755 /usr/local/bin/* \
+   
   && echo "---- Cleaning up ----" \
   && rm -rf /volatility3 \
   && rm -rf /RegRipper2.8 \
