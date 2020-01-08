@@ -35,7 +35,7 @@ RUN apk add --no-cache -t .build \
   && chmod +x cpanm \
   && cd / \
   && mkdir /usr/local/lib/rip-lib \
-  && cpanm -l /usr/local/lib/rip-lib Parse::Win32Registry \
+  && cpanm --force -l /usr/local/lib/rip-lib Parse::Win32Registry \
  
   #rr download, mod & installation
   && git clone https://github.com/keydet89/RegRipper2.8.git \ 
@@ -61,7 +61,7 @@ RUN apk add --no-cache -t .build \
   && echo "Various tools install" \
     
   #oletools
-  && pip install -U https://github.com/decalage2/oletools/archive/master.zip \
+  && pip3 install -U https://github.com/decalage2/oletools/archive/master.zip \
   
   #ntfs parser, vsc_mount
   && pip3 install https://github.com/msuhanov/dfir_ntfs/archive/1.0.0.tar.gz \
@@ -74,27 +74,18 @@ RUN apk add --no-cache -t .build \
   && rm -rf /peframe \
   
   #libvshadow
-  && wget https://github.com/libyal/libvshadow/releases/download/20191103/libvshadow-alpha-20191103.tar.gz \
+  && wget https://github.com/libyal/libvshadow/releases/download/20191221/libvshadow-alpha-20191221.tar.gz \
   && tar xfv libvshadow-alpha* \
   && cd libvshadow* \
   && ./configure \
   && make \
   && make install \
   && cd / \
-  && rm -rf /libvshadow-20191103 \
-  && rm libvshadow* \
-   
-  #flarestrings/rank_strings
-  #&& git clone https://github.com/fireeye/stringsifter.git \
-  #&& cd stringsifter \
-  #&& pip3 install -e . \
-  #&& cd / \
-  #&& rm -rf /stringsifter \
-  #&& chmod 755 /usr/local/bin/* \
-   
-  && echo "---- Cleaning up ----" \
+  && rm libvshadow-alpha-20191221.tar.gz \
+  && rm -rf libvshadow-* \
   && rm -rf /volatility3 \
   && rm -rf /RegRipper2.8 \
   && apk del --purge .build 
+  
 
 WORKDIR /cases
