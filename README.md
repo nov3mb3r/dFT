@@ -15,20 +15,20 @@ Make sure you have the Docker engine installed. Click [here](https://docs.docker
 ### Build from Docker registry (Recommended)
 Just :
 ```
-sudo docker pull nov3mb3r/dFT
+sudo docker pull nov3mb3r/dft:latest
 ```
 Simple isn't it?
 
 ### Run 
 To deploy a container from the created image :
 ```
-sudo docker run -it nov3mb3r/dFT /bin/ash
+sudo docker run -it nov3mb3r/dft /bin/ash
 ```
 Access your case files with a shared folder between your working directory and the container.
 
 ##### Make sure you don't spoil your evidence files, by granting read-only permissions to the container. 
 ```
-$ sudo docker run -it -v ~/cases:/cases:ro nov3mb3r/dFT /bin/ash 
+$ sudo docker run -it -v ~/cases:/cases:ro nov3mb3r/dft /bin/ash 
 ```
 
 #### DISCLAIMER
